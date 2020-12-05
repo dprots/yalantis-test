@@ -1,0 +1,19 @@
+.birthday-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 30%;
+  background: rgba(255, 255, 255, 0.85) url("../../../../assets/images/birthday-bg.png");
+  background-blend-mode: lighten;
+}
+
+.birthday-month {
+  margin-bottom: 10px;
+}
+
+.birthday-list {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 0;
+}
