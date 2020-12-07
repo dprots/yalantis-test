@@ -7,7 +7,7 @@ import EmployeeListItem from '../EmployeesListItem/index';
 import {fetchUsers, toggleCheckedUser} from '../../../../app/store/actions';
 import {sortArr} from '../../../../shared/services/sortArr';
 
-import './EmployeesList.css';
+import './EmployeesList.scss';
 
 const EmployeesList = () => {
   const state = useSelector((state) => state);
