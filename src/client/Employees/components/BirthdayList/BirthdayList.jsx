@@ -1,18 +1,19 @@
 import React from 'react';
-import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux';
 import moment from 'moment';
-import {v4} from "uuid";
+import {v4} from 'uuid';
 
 import {months} from '../../../../shared/variables/months'
-import BirthdayListItem from "../BirthdayListItem";
+import BirthdayListItem from '../BirthdayListItem';
 import {sortArr} from '../../../../shared/services/sortArr';
 
-import './BirthdayList.scss'
+import './BirthdayList.css';
 
 const BirthdayList = () => {
   const users = useSelector((state) => state.users)
   const selectedUsers = users.filter(item => item.selected === true)
   const sortedUsers = sortArr(selectedUsers, 'dob');
+  
   const selectedUsersElement = months.map(month => {
     const usersByMonth = sortedUsers.filter(({dob}) => (moment(dob).format("MMMM") === month));
     const monthElement = usersByMonth.map(({lastName, firstName, dob}) => {
@@ -20,7 +21,7 @@ const BirthdayList = () => {
       return (
         <BirthdayListItem key={v4()} firstName={firstName} lastName={lastName} dateBirthday={dateBirthday}/>
       )
-    })
+    });
 
     return (
       <div key={v4()}>
@@ -28,7 +29,7 @@ const BirthdayList = () => {
         {monthElement}
       </div>
     )
-  })
+  });
 
   return (
     <div className="birthday-container">

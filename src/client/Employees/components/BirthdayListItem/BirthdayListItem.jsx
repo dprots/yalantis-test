@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './BirthdayListItem.scss';
+import './BirthdayListItem.css';
 
 const BirthdayListItem = (({lastName, firstName, dateBirthday}) => {
 

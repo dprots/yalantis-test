@@ -1,11 +1,4 @@
 export const initialState = {
-  users: [
-    {
-      id: '',
-      firstName: '',
-      lastName: '',
-      dob: ''
-    }],
+  users: [],
   loading: true,
-  error: ''
-}
+};

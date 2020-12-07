@@ -3,7 +3,7 @@
   flex-direction: column;
   align-content: center;
   width: 30%;
-  background: rgba(255, 255, 255, 0.85) url("../../../../assets/images/birthday-bg.png");
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../../../../assets/images/birthday-bg.png');
   background-blend-mode: lighten;
 }
 

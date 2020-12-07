@@ -9,6 +9,6 @@ export const sortArr = (arr, name) => {
       return -1
     }
     return 0
-  })
+  });
   return result
-}
+};

@@ -1,54 +1,59 @@
 import React, {useEffect} from 'react';
-import {v4} from 'uuid';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 
-import {alphabetArray} from "../../../../shared/variables/alphabet";
-import EmployeeListItem from "../EmployeeListItem/index";
-import {fetchUsers} from "../../../../store/actions/fetchUsers";
-import {sortArr} from "../../../../shared/services/sortArr";
-import {toggleCheckedUser} from "../../../../store/actions/toggleCheckedUser";
+import {alphabetArray} from '../../../../shared/variables/alphabet';
+import EmployeeListItem from '../EmployeesListItem/index';
+import {fetchUsers, toggleCheckedUser} from '../../../../app/store/actions';
+import {sortArr} from '../../../../shared/services/sortArr';
 
-import './EmployeesList.scss';
+import './EmployeesList.css';
 
 const EmployeesList = () => {
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  useEffect(  async () => {
-      await axios.get('https://yalantis-react-school-api.yalantis.com/api/task0/users')
-        .then(({data}) => dispatch(fetchUsers(data.map(item => {
-            if (!item.selected) {
-              return ({...item, selected: false})
-            }
-            return item
-          })
-        )))
-        .catch(err => console.log(err));
+  useEffect(() => {
+    async function fetchData() {
+      if (state.users.length === 0) {
+        await axios.get('https://yalantis-react-school-api.yalantis.com/api/task0/users')
+          .then(({data}) => dispatch(fetchUsers(data.map(item => {
+              if (!item.selected) {
+                return ({...item, selected: false})
+              }
+              return item
+            })
+          )))
+          .catch(err => console.log(err));
+      }
+    }
+    fetchData();
   }, []);
 
-  const users = useSelector((state) => state.users);
-  const sortedUsers = sortArr(users, 'lastName');
-  const employeesListElement = alphabetArray.map(letter => {
+  const sortedUsers = sortArr(state.users, 'lastName');
+  const employeesListElement = state.loading === true ? <p>Loading...</p> :
+    alphabetArray.map(letter => {
 
-    const usersByLetter = sortedUsers.filter(item =>
-      item.lastName[0].toUpperCase() === letter.toUpperCase());
+      const usersByLetter = sortedUsers.filter(item =>
+        item.lastName[0].toUpperCase() === letter.toUpperCase());
 
-    const alphabetElement = usersByLetter.map(({id, lastName, firstName}) =>
-      (<EmployeeListItem
-        key={v4()}
-        lastName={lastName}
-        firstName={firstName}
-        toggleCheckbox={() => dispatch(toggleCheckedUser(id))}
-      />)
-    );
+      const alphabetElement = usersByLetter.map(({id, lastName, firstName, selected}) =>
+        (<EmployeeListItem
+          key={id}
+          lastName={lastName}
+          firstName={firstName}
+          isSelected={selected}
+          toggleHandler={() => dispatch(toggleCheckedUser(id))}
+        />)
+      );
 
-    return (
-      <div className="employees-item" key={v4()}>
-        <h3 className="employees-alphabet">{letter.toUpperCase()}</h3>
-        {(alphabetElement.length > 0) ? alphabetElement : "-----"}
-      </div>
-    )
-  });
+      return (
+        <div className="employees-item" key={letter}>
+          <h3 className="employees-alphabet">{letter.toUpperCase()}</h3>
+          {alphabetElement.length ? alphabetElement : "-----"}
+        </div>
+      )
+    });
 
   return (
     <div className="employees-container">
